@@ -6,9 +6,13 @@
         <script src="//use.typekit.net/rie5vxi.js"></script>
         <script>try{Typekit.load();}catch(e){}</script>
         <link rel="stylesheet" href="/static/styles/style.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
     </head>
     <body>
-        Index Is Running.
+        <div id="navBar"><div id="yakLogo"><img src="/static/img/yak.png" /></div></div>
+        <div id="yaks">
+        </div>
 
         <script>
             $(function() {
@@ -20,15 +24,14 @@
             });
         
             function showPosition(position) {
-                alert("LAT: " + position.coords.latitude + "\nLNG: " + position.coords.longitude);
-                
                 $.getJSON('/get_yaks', {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 }, function(data) {
-                    document.body.innerHTML = "";
                     jQuery.each(data.messages, function(i, val) {
-                        document.body.innerHTML += val.message + "<br>";
+                        console.log(val);
+                        var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\"></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\"></div></div>"
+                        $("#yaks").append("<div class=\"yak\">" + buildVotes + "<div class=\"yakText\">" + val.message + "</div></div>");
                     });
                 });
             }
