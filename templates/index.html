@@ -26,7 +26,16 @@
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 }, function(data) {
-                    console.log(data);
+                    jQuery.each(data, function(i, val) {
+                        if (i == "messages") {
+                            console.log("yes");
+                            document.body.innerHTML = "";
+                            jQuery.each(val, function(i, val) {
+                                document.body.innerHTML += val.message + "<br>";
+                            });
+                        }
+                        //document.body.innerHTML = data.messages[i].message;
+                    });
                 });
             }
         </script>
