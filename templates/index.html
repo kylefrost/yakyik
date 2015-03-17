@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    </head>
+    <body>
+        Index Is Running.
+
+        <script>
+            $(function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else { 
+                    alert("Geolocation is not supported by this browser.");
+                }
+            });
+        
+            function showPosition(position) {
+                alert("LAT: " + position.coords.latitude + "\nLNG: " + position.coords.longitude);
+
+                $.getJSON('/get_yaks', {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }, function(data) {
+                    console.log(data);
+                });
+            }
+        </script>
+    </body>
+</html>
