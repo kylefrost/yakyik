@@ -8,9 +8,13 @@
         <link rel="stylesheet" href="/static/styles/style.css">
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+        <link rel="stylesheet" href="http://css-spinners.com/css/spinner/whirly.css" type="text/css">
     </head>
     <body>
         <div id="navBar"><div id="yakLogo"><img src="/static/img/yak.png" /></div></div>
+        <div id="loading">
+            <div class="whirly">Loading...</div>
+        </div>
         <div id="yaks">
         </div>
 
@@ -30,7 +34,7 @@
                 }, function(data) {
                     jQuery.each(data.messages, function(i, val) {
                         console.log(val);
-                        var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\"></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\"></div></div>";
+                        var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\" onclick=\"clickedUp(this)\"><img src=\"/static/img/upVote.png\" /></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\" onclick=\"clickedDown(this)\"><img src=\"/static/img/downVote.png\" /></div></div>";
                         if (val.handle) {
                             var buildHandle = "<div class=\"yakHandle\">" + val.handle + "</div>";
                         } else {
@@ -39,6 +43,28 @@
                         $("#yaks").append("<div class=\"yak\">" + buildVotes + buildHandle + "<div class=\"yakText\">" + val.message + "</div></div>");
                     });
                 });
+
+                $("#loading").fadeOut(200, function() {
+                    $("#loading").remove();
+                    $("#yaks").fadeIn(2500);
+                });
+            }
+
+            function clickedUp(obj) {
+                var objs = obj.parentNode.children;
+                console.log(objs);
+                obj.innerHTML = (obj.innerHTML == '<img src="/static/img/upVote.png">') ? '<img src="/static/img/upVote_pressed.png">' : '<img src="/static/img/upVote.png">';
+                objs[1].innerHTML = (obj.innerHTML == '<img src="/static/img/upVote.png">') ? parseInt(objs[1].innerHTML) - 1 : parseInt(objs[1].innerHTML) + 1;
+                objs[2].innerHTML = (objs[2].innerHTML == '<img src="/static/img/downVote.png">') ? '<img src="/static/img/downVote.png">' : '<img src="/static/img/downVote_pressed.png">';
+                objs[1].innerHTML = (objs[2].innerHTML == '<img src="/static/img/downVote_pressed.png">') ? parseInt(objs[1].innerHTML) - 1 : parseInt(objs[1].innerHTML) + 0);
+            }
+
+            function clickedDown(obj) {
+                if (obj.innerHTML == '<img src="/static/img/downVote.png">') {
+                    obj.innerHTML = '<img src="/static/img/downVote_pressed.png">';
+                } else {
+                    obj.innerHTML = '<img src="/static/img/downVote.png">';
+                }
             }
         </script>
     </body>

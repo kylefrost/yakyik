@@ -13,7 +13,7 @@ def get_yaks():
     lng = request.args.get('lng')
     
     yyapi = YikYakAPI(None, lat, lng)
-    yyapi.registerUser()
+    # yyapi.registerUser()
     yaks = yyapi.getMessages(lat, lng)
     return jsonify(yaks)
 
