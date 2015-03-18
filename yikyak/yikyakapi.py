@@ -9,7 +9,7 @@ import hmac
 
 
 class YikYakAPI:
-    baseURL = 'https://us-central-api.yikyakapi.net/api/'
+    baseURL = 'https://us-west-api.yikyakapi.net/api/'
     key = 'F7CAFA2F-FE67-4E03-A090-AC7FFF010729'
 
     def __init__(self, userID=None, latitude=0, longitude=0):
@@ -39,12 +39,13 @@ class YikYakAPI:
         prepped = self.session.prepare_request(req)
         if messageID:
             prepped.url = prepped.url.replace('&salt', '&messageID=' + messageID[1] + '&salt')
-            print prepped.url
         response = self.session.send(prepped)
         pending = self.session.cookies.pop('pending', None)
         if (response.headers['content-type'] == 'application/json'):
+            print response.json()
             return response.json()
         elif pending:
+            print json.loads(unquote(pending))
             return json.loads(unquote(pending))
 
     def get(self, endpoint, params=None):
@@ -75,8 +76,8 @@ class YikYakAPI:
     def downvoteMessage(self, messageID):
         return self.get('downvoteMessage', (('messageID', messageID),))
 
-    def upvoteMessage(self, messageID):
-        return self.get('upvoteMessage', (('messageID', messageID),))
+    def likeMessage(self, messageID):
+        return self.get('likeMessage', (('messageID', messageID),))
 
     def sendMessage(self, message, handle=None, hidePin=False, lat=None, long=None):
         params = (('lat', lat if lat else self.latitude),)
@@ -85,3 +86,5 @@ class YikYakAPI:
         params += (('hndl', handle),) if handle else ()
         params += (('hidePin', 1 if hidePin else 0),)
         return self.post('sendMessage', params)
+
+

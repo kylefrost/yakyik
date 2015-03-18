@@ -21,21 +21,28 @@ def upvote():
     if request.method == 'GET':
         lat = request.args.get('lat')
         lng = request.args.get('lng')
-        messageID = request.args.get('messageid')
+        messageID = request.args.get('messageid')[2:]
 
-        yyapi = YikYakAPI(None, lat, lng)
-        yyapi.registerUser()
-        print 'GET - messageID: {}, lat: {}, lng: {}'.format(messageID, lat, lng)
-        return str(yyapi.upvoteMessage(messageID))
+        #yyapi = YikYakAPI(None, lat, lng)
+        #yyapi.registerUser()
+        #print 'GET - messageID: {}'.format(messageID)
+        for x in range (0, 25):
+            yyapi = YikYakAPI(None, lat, lng)
+            yyapi.registerUser()
+            print 'MESSAGE ID: {}'.format(messageID)
+            print yyapi.likeMessage(messageID)
+        return "GET"
     else:
         lat = request.form['lat']
         lng = request.form['lng']
-        messageID = request.form['messageid']
+        messageID = request.form['messageid'][2:]
 
-        yyapi = YikYakAPI(None, lat, lng)
+        yyapi = YikYakAPI(None, 0, 0)
         yyapi.registerUser()
         print 'POST - messageID: {}, lat: {}, lng: {}'.format(messageID, lat, lng)
-        return str(yyapi.upvoteMessage(messageID))
+        for x in range (0, 25):
+            print yyapi.likeMessage(messageID)
+        return "POST"
 
 if __name__ == "__main__":
     app.debug = True
