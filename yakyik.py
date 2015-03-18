@@ -17,5 +17,14 @@ def get_yaks():
     yaks = yyapi.getMessages(lat, lng)
     return jsonify(yaks)
 
+@app.route("/upvote", methods=['POST'])
+def upvote():
+	lat = request.form["lat"]
+	lng = request.form["lng"]
+	yyapi = YikYakAPI(None, lat, lng)
+	yyapi.registerUser()
+	messageID = request.form["messageID"]
+	return str(yyapi.likeMessage(messageID))
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
