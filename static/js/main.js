@@ -1,6 +1,6 @@
 $(function() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError, {timeout:5000});
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else { 
         alert("Geolocation is not supported by this browser.");
     }
@@ -22,33 +22,37 @@ function showPosition(position) {
             $("#yaks").append("<div class=\"yak\">" + buildVotes + buildHandle + "<div class=\"yakText\">" + val.message + "</div></div>");
         });
     });
+
+    $("#loading").fadeOut(200, function() {
+        $("#loading").remove();
+        $("#yaks").fadeIn(2500);
+    });
 }
 
 function showError(error) {
-    // switch(error.code) {
-    //     case error.PERMISSION_DENIED:
-    //         alert("User denied the request for Geolocation.");
-    //         break;
-    //     case error.POSITION_UNAVAILABLE:
-    //         alert("Location information is unavailable.");
-    //         break;
-    //     case error.TIMEOUT:
-    //         alert("The request to get user location timed out.");
-    //         break;
-    //     case error.UNKNOWN_ERROR:
-    //         alert("An unknown error occurred.");
-    //         break;
-    // }
-    alert(error);
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
+    }
 }
 
 function clickedUp(obj) {
     var objs = obj.parentNode.children;
     console.log(objs);
 
-    var obj = upVote;
-    var objs[1] = votes;
-    var objs[2] = downVote;
+    var upVote = obj;
+    var votes = objs[1];
+    var downVote = objs[2];
 
     if (upVote.innerHTML == '<img src="/static/img/upVote.png">') {
         if (downVote.innerHTML == '<img src="/static/img/downVote.png">') {
@@ -69,9 +73,9 @@ function clickedDown(obj) {
     var objs = obj.parentNode.children;
     console.log(objs);
 
-    var obj = upVote;
-    var objs[1] = votes;
-    var objs[2] = downVote;
+    var downVote = obj;
+    var votes = objs[1];
+    var upVote = objs[0];
 
     if (downVote.innerHTML == '<img src="/static/img/downVote.png">') {
         if (upVote.innerHTML == '<img src="/static/img/upVote.png">') {
@@ -84,6 +88,6 @@ function clickedDown(obj) {
         }
     } else {
         downVote.innerHTML = '<img src="/static/img/downVote.png">';
-        votes.innerHTML = parseInt(votes.innerHTML) - 1;
+        votes.innerHTML = parseInt(votes.innerHTML) + 1;
     }
 }
