@@ -17,7 +17,6 @@ function showPosition(position) {
         lng: position.coords.longitude
     }, function(data) {
         jQuery.each(data.messages, function(i, val) {
-            console.log(val);
             var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\" onclick=\"clickedUp(this)\" messageid=\"" + val.messageID + "\"><img src=\"/static/img/upVote.png\" /></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\" onclick=\"clickedDown(this)\"><img src=\"/static/img/downVote.png\" /></div></div>";
             if (val.handle) {
                 var buildHandle = "<div class=\"yakHandle\">" + val.handle + "</div>";
@@ -64,7 +63,7 @@ function clickedUp(obj) {
             upVote.innerHTML = '<img src="/static/img/upVote_pressed.png">';
             votes.innerHTML = parseInt(votes.innerHTML) + 1;
             $.ajax({
-                method: "POST",
+                type: "POST",
                 url: "/upvote",
                 data: { messageID: messageID, lat: kLat, lng: kLng }
             }).done(function(data) {
@@ -75,7 +74,7 @@ function clickedUp(obj) {
             votes.innerHTML = parseInt(votes.innerHTML) + 2;
             downVote.innerHTML = '<img src="/static/img/downVote.png">';
             $.ajax({
-                method: "POST",
+                method: "GET",
                 url: "/upvote",
                 data: { messageID: messageID, lat: kLat, lng: kLng }
             }).done(function(data) {
