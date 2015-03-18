@@ -39,6 +39,7 @@ class YikYakAPI:
         prepped = self.session.prepare_request(req)
         if messageID:
             prepped.url = prepped.url.replace('&salt', '&messageID=' + messageID[1] + '&salt')
+            print prepped.url
         response = self.session.send(prepped)
         pending = self.session.cookies.pop('pending', None)
         if (response.headers['content-type'] == 'application/json'):
@@ -74,8 +75,8 @@ class YikYakAPI:
     def downvoteMessage(self, messageID):
         return self.get('downvoteMessage', (('messageID', messageID),))
 
-    def likeMessage(self, messageID):
-        return self.get('likeMessage', (('messageID', messageID),))
+    def upvoteMessage(self, messageID):
+        return self.get('upvoteMessage', (('messageID', messageID),))
 
     def sendMessage(self, message, handle=None, hidePin=False, lat=None, long=None):
         params = (('lat', lat if lat else self.latitude),)

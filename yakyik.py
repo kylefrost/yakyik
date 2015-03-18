@@ -26,7 +26,7 @@ def upvote():
         yyapi = YikYakAPI(None, lat, lng)
         yyapi.registerUser()
         print 'GET - messageID: {}, lat: {}, lng: {}'.format(messageID, lat, lng)
-        return str(yyapi.likeMessage(messageID))
+        return str(yyapi.upvoteMessage(messageID))
     else:
         lat = request.form['lat']
         lng = request.form['lng']
@@ -35,7 +35,7 @@ def upvote():
         yyapi = YikYakAPI(None, lat, lng)
         yyapi.registerUser()
         print 'POST - messageID: {}, lat: {}, lng: {}'.format(messageID, lat, lng)
-        return str(yyapi.likeMessage(messageID))
+        return str(yyapi.upvoteMessage(messageID))
 
 if __name__ == "__main__":
     app.debug = True

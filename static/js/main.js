@@ -74,7 +74,7 @@ function clickedUp(obj) {
             */
             
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/upvote",
                 data: { 'messageid': messageID, 'lat': kLat, 'lng': kLng }
             }).done(function(data) {
