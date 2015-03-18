@@ -30,8 +30,13 @@
                 }, function(data) {
                     jQuery.each(data.messages, function(i, val) {
                         console.log(val);
-                        var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\"></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\"></div></div>"
-                        $("#yaks").append("<div class=\"yak\">" + buildVotes + "<div class=\"yakText\">" + val.message + "</div></div>");
+                        var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\"></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\"></div></div>";
+                        if (val.handle) {
+                            var buildHandle = "<div class=\"yakHandle\">" + val.handle + "</div>";
+                        } else {
+                            var buildHandle = "<div class=\"yakHandle\"></div>";
+                        }
+                        $("#yaks").append("<div class=\"yak\">" + buildVotes + buildHandle + "<div class=\"yakText\">" + val.message + "</div></div>");
                     });
                 });
             }

@@ -45,6 +45,12 @@
     font-size: 15pt;
     border-bottom: 1px solid #CFCFCF;
     height: 75px;
+    
+    & .yakHandle {
+        background-color: black;
+        height: 20px;
+        color: @yakgreen;
+    }
 
     & .yakText {
         width: 80%;
@@ -54,7 +60,6 @@
     & .yakVotes {
         position: relative;
         margin-right: 20px;
-        background-color: black;
         width: 50px;
         height: 75px;
         float: right;
@@ -67,6 +72,10 @@
             & img {
                 width: 50px;
                 height: 20px;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
 
@@ -77,13 +86,16 @@
             & img {
                 width: 50px;
                 height: 20px;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
 
         & .totalVote {
             width: 50px;
             height: 35px;
-            background-color: blue;
             text-align: center;
             line-height: 35px;
             font-size: 15pt;
