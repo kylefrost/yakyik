@@ -42,10 +42,8 @@ class YikYakAPI:
         response = self.session.send(prepped)
         pending = self.session.cookies.pop('pending', None)
         if (response.headers['content-type'] == 'application/json'):
-            print response.json()
             return response.json()
         elif pending:
-            print json.loads(unquote(pending))
             return json.loads(unquote(pending))
 
     def get(self, endpoint, params=None):

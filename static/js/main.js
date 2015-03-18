@@ -16,7 +16,6 @@ function showPosition(position) {
         lat: position.coords.latitude,
         lng: position.coords.longitude
     }, function(data) {
-        console.log(data);
         jQuery.each(data.messages, function(i, val) {
             var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\" onclick=\"clickedUp(this)\" messageid=\"" + val.messageID + "\"><img src=\"/static/img/upVote.png\" /></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\" onclick=\"clickedDown(this)\"><img src=\"/static/img/downVote.png\" /></div></div>";
             if (val.handle) {
