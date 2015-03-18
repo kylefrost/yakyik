@@ -57,18 +57,30 @@ function clickedUp(obj) {
     var votes = objs[1];
     var downVote = objs[2];
     var messageID = obj.getAttribute("messageid");
+    console.log(messageID);
 
     if (upVote.innerHTML == '<img src="/static/img/upVote.png">') {
         if (downVote.innerHTML == '<img src="/static/img/downVote.png">') {
             upVote.innerHTML = '<img src="/static/img/upVote_pressed.png">';
             votes.innerHTML = parseInt(votes.innerHTML) + 1;
+            /*
+            $.getJSON('/upvote', {
+                lat: kLat,
+                lng: kLng,
+                messageid: messageID
+            }, function(data) {
+                console.log(data)
+            });
+            */
+            
             $.ajax({
                 type: "POST",
                 url: "/upvote",
-                data: { messageID: messageID, lat: kLat, lng: kLng }
+                data: { 'messageid': messageID, 'lat': kLat, 'lng': kLng }
             }).done(function(data) {
                 console.log(data);
             });
+            
         } else {
             upVote.innerHTML = '<img src="/static/img/upVote_pressed.png">';
             votes.innerHTML = parseInt(votes.innerHTML) + 2;

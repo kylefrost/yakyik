@@ -11,7 +11,6 @@ def index():
 def get_yaks():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
-    
     yyapi = YikYakAPI(None, lat, lng)
     # yyapi.registerUser()
     yaks = yyapi.getMessages(lat, lng)
@@ -19,13 +18,24 @@ def get_yaks():
 
 @app.route("/upvote", methods=['GET', 'POST'])
 def upvote():
-	lat = request.args.get('lat')
-	lng = request.args.get('lng')
-	yyapi = YikYakAPI(None, lat, lng)
-	yyapi.registerUser()
-	messageID = request.args.get('messageID')
-    print messageID
-	return jsonify(yyapi.likeMessage(messageID))
+    if request.method == 'GET':
+        lat = request.args.get('lat')
+        lng = request.args.get('lng')
+        messageID = request.args.get('messageid')
+
+        yyapi = YikYakAPI(None, lat, lng)
+        yyapi.registerUser()
+        print 'GET - messageID: {}, lat: {}, lng: {}'.format(messageID, lat, lng)
+        return str(yyapi.likeMessage(messageID))
+    else:
+        lat = request.form['lat']
+        lng = request.form['lng']
+        messageID = request.form['messageid']
+
+        yyapi = YikYakAPI(None, lat, lng)
+        yyapi.registerUser()
+        print 'POST - messageID: {}, lat: {}, lng: {}'.format(messageID, lat, lng)
+        return str(yyapi.likeMessage(messageID))
 
 if __name__ == "__main__":
     app.debug = True

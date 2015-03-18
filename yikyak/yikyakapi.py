@@ -9,7 +9,7 @@ import hmac
 
 
 class YikYakAPI:
-    baseURL = 'https://us-west-api.yikyakapi.net/api/'
+    baseURL = 'https://us-central-api.yikyakapi.net/api/'
     key = 'F7CAFA2F-FE67-4E03-A090-AC7FFF010729'
 
     def __init__(self, userID=None, latitude=0, longitude=0):
