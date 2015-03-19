@@ -98,10 +98,25 @@
 .yak .yakTimeSince {
   position: absolute;
   color: #0dd5b2;
-  font-size: 8pt;
+  font-size: 10pt;
   bottom: 0px;
   margin-bottom: 5px;
   margin-left: 5px;
+}
+.yak .yakTimeSince img {
+  margin-right: 5px;
+  margin-bottom: 2px;
+  background-color: black;
+  height: 10px;
+  width: auto;
+}
+.yak .yakComments {
+  position: absolute;
+  color: gray;
+  font-size: 10pt;
+  bottom: 0px;
+  margin-bottom: 5px;
+  margin-left: 75px;
 }
 .yak .yakVotes {
   position: relative;
