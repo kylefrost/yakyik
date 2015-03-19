@@ -1,4 +1,4 @@
-import os, config, urllib3.contrib.pyopenssl, urllib
+import os, urllib3.contrib.pyopenssl, urllib
 from flask import Flask, render_template, request, jsonify
 from yikyak import YikYakAPI
 import pyak as pk
