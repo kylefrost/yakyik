@@ -104,8 +104,9 @@ class YikYakAPI:
         params = (('lat', lat if lat else self.latitude),)
         params += (('long', long if long else self.longitude),)
         params += (('message', message),)
-        params += (('hndl', handle),) if handle else ()
-        params += (('hidePin', 1 if hidePin else 0),)
+        params += (('handle', handle),) if handle else ()
+        #params += (('hidePin', 1 if hidePin else 0),)
+        params += (('hidePin', 1),)
         return self.post('sendMessage', params)
 
 

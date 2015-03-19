@@ -1,7 +1,9 @@
-import os, config
+import os, config, urllib3.contrib.pyopenssl, urllib
 from flask import Flask, render_template, request, jsonify
 from yikyak import YikYakAPI
-import API
+import pyak as pk
+
+urllib3.contrib.pyopenssl.inject_into_urllib3()
 
 app = Flask(__name__)
 
@@ -14,8 +16,13 @@ def get_yaks():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
     
+    global yakker
+    yakker = pk.Yakker()
+    location = pk.Location(lat, lng)
+    yakker.update_location(location)
+
     global yyapi
-    yyapi = YikYakAPI(config.YYUIDN, lat, lng)
+    yyapi = YikYakAPI(yakker.id, lat, lng)
     yaks = yyapi.getMessages(lat, lng)
     return jsonify(yaks)
 
@@ -28,7 +35,7 @@ def upvote():
     else:
         return "Only GET requests."
 
-    response = yyapi.likeMessage(messageID)
+    response = yakker.upvote_yak(urllib.unquote(messageID)) #yyapi.likeMessage(messageID)
 
     return str(response)
 
@@ -41,7 +48,7 @@ def downvote():
     else:
         return "Only GET requests."
 
-    response = yyapi.downvoteMessage(messageID)
+    response = yakker.downvote_yak(urllib.unquote(messageID)) #yyapi.downvoteMessage(messageID)
 
     return str(response)
 
@@ -59,7 +66,7 @@ def postyak():
 	if (handle == ""):
 		handle = None
 
-	yyapi.sendMessage(message, handle, False, lat, lng)
+	yakker.post_yak(message) #yyapi.sendMessage(message, handle, False, lat, lng)
 
 	return "Posted."
 
