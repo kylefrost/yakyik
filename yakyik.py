@@ -14,7 +14,7 @@ def get_yaks():
     lng = request.args.get('lng')
 
     global yyapi
-    yyapi = YikYakAPI(config.YYUID, lat, lng) # iPad userID cause .registerUser() does not work
+    yyapi = YikYakAPI(config.APIYYUID, lat, lng)
     yaks = yyapi.getMessages(lat, lng)
     return jsonify(yaks)
 
