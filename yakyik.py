@@ -1,6 +1,7 @@
 import os, config
 from flask import Flask, render_template, request, jsonify
 from yikyak import YikYakAPI
+import API
 
 app = Flask(__name__)
 
@@ -12,9 +13,12 @@ def index():
 def get_yaks():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
+    
+    loc = API.Location(lat, lng)
+    yakker = API.Yakker(None, loc, True)
 
     global yyapi
-    yyapi = YikYakAPI(config.YYUID, lat, lng) # iPad userID cause .registerUser() does not work
+    yyapi = YikYakAPI(yakker.id, lat, lng) # iPad userID cause .registerUser() does not work
     yaks = yyapi.getMessages(lat, lng)
     return jsonify(yaks)
 
