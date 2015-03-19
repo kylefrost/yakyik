@@ -14,8 +14,8 @@ def get_yaks():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
     
-    loc = API.Location(lat, lng)
-    yakker = API.Yakker(None, loc, True)
+    #loc = API.Location(lat, lng)
+    #yakker = API.Yakker(None, loc, True)
 
     global yyapi
     yyapi = YikYakAPI(config.APIYYUID, lat, lng)
