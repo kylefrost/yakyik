@@ -16,6 +16,7 @@ function showPosition(position) {
         lat: position.coords.latitude,
         lng: position.coords.longitude
     }, function(data) {
+        console.log(data)
         jQuery.each(data.messages, function(i, val) {
             var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\" onclick=\"clickedUp(this)\" messageid=\"" + val.messageID + "\"><img src=\"/static/img/upVote.png\" /></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\" onclick=\"clickedDown(this)\" messageid=\"" + val.messageID + "\"><img src=\"/static/img/downVote.png\" /></div></div>";
             if (val.handle) {
@@ -23,7 +24,17 @@ function showPosition(position) {
             } else {
                 var buildHandle = "<div class=\"yakHandle\"></div>";
             }
-            $("#yaks").append("<div class=\"yak\">" + buildVotes + buildHandle + "<div class=\"yakText\">" + val.message + "</div></div>");
+            var buildComments = "<div class=\"yakComments\">" + val.comments + " COMMENTS</div>";
+            var buildTime = moment(val.time).fromNow(true);
+            console.log(buildTime);
+            if (buildTime.split(" ").pop() == "days" || buildTime.split(" ").pop() == "day") {
+                var days = buildTime.split(" ")[0] == "a" ? "1" : buildTime.split(" ")[0];
+                builtTime = days + "d";
+            } else if (buildTime.split(" ").pop() == "hours" || buildTime.split(" ").pop() == "hour") {
+                console.log(buildTime.split(" "));
+            }
+
+            $("#yaks").append("<div class=\"yak\">" + buildVotes + buildHandle + "<div class=\"yakText\">" + val.message + "</div>" + buildTime + "</div>");
         });
     });
 

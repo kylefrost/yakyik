@@ -74,6 +74,7 @@
 }
 
 .yak {
+    position: relative;
     margin-left: 50px;
     padding-top: 15px;
     padding-bottom: 5px;
@@ -82,7 +83,7 @@
     list-style-type: none;
     font-size: 15pt;
     border-bottom: 1px solid #CFCFCF;
-    height: 75px;
+    height: 100px;
 
     .prefixed(box-sizing, content-box);
     
@@ -94,7 +95,15 @@
 
     & .yakText {
         width: 80%;
-        //z-index: 99;
+    }
+
+    & .yakTimeSince {
+        position: absolute;
+        color: @yakgreen;
+        font-size: 8pt;
+        bottom: 0px;
+        margin-bottom: 5px;
+        margin-left: 5px;
     }
     
     & .yakVotes {
