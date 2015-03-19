@@ -17,7 +17,7 @@ function showPosition(position) {
         lng: position.coords.longitude
     }, function(data) {
         jQuery.each(data.messages, function(i, val) {
-            var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\" onclick=\"clickedUp(this)\" messageid=\"" + val.messageID + "\"><img src=\"/static/img/upVote.png\" /></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\" onclick=\"clickedDown(this)\"><img src=\"/static/img/downVote.png\" /></div></div>";
+            var buildVotes = "<div class=\"yakVotes\"><div class=\"upVote\" onclick=\"clickedUp(this)\" messageid=\"" + val.messageID + "\"><img src=\"/static/img/upVote.png\" /></div><div class=\"totalVote\">" + val.numberOfLikes + "</div><div class=\"downVote\" onclick=\"clickedDown(this)\" messageid=\"" + val.messageID + "\"><img src=\"/static/img/downVote.png\" /></div></div>";
             if (val.handle) {
                 var buildHandle = "<div class=\"yakHandle\">" + val.handle + "</div>";
             } else {
@@ -57,7 +57,6 @@ function clickedUp(obj) {
     var votes = objs[1];
     var downVote = objs[2];
     var messageID = obj.getAttribute("messageid");
-    console.log(messageID);
 
     if (upVote.innerHTML == '<img src="/static/img/upVote.png">') {
         if (downVote.innerHTML == '<img src="/static/img/downVote.png">') {
@@ -84,11 +83,11 @@ function clickedUp(obj) {
 
 function clickedDown(obj) {
     var objs = obj.parentNode.children;
-    console.log(objs);
 
     var downVote = obj;
     var votes = objs[1];
     var upVote = objs[0];
+    var messageID = obj.getAttribute("messageid");
 
     if (downVote.innerHTML == '<img src="/static/img/downVote.png">') {
         if (upVote.innerHTML == '<img src="/static/img/upVote.png">') {
