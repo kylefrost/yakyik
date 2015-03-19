@@ -1,6 +1,6 @@
+import os
 from flask import Flask, render_template, request, jsonify
 from yikyak import YikYakAPI
-import api as yy
 
 app = Flask(__name__)
 
@@ -8,47 +8,55 @@ app = Flask(__name__)
 def index():
     return render_template('index.html', title='Yak Yik')
 
-@app.route("/get_yaks", methods=['GET', 'POST'])
+@app.route("/get_yaks", methods=['GET'])
 def get_yaks():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
-    yyapi = YikYakAPI(None, lat, lng)
-    # yyapi.registerUser()
+
+    global yyapi
+    yyapi = YikYakAPI(os.getenv('YYUID'), lat, lng) # iPad userID cause .registerUser() does not work
     yaks = yyapi.getMessages(lat, lng)
     return jsonify(yaks)
 
-@app.route("/upvote", methods=['GET', 'POST'])
+@app.route("/upvote", methods=['GET'])
 def upvote():
     if request.method == 'GET':
-        lat = request.args.get('lat')
-        lng = request.args.get('lng')
+        lat = str(round(float(request.args.get('lat')), 6))
+        lng = str(round(float(request.args.get('lng')), 6))
         messageID = request.args.get('messageid')
     else:
-        lat = request.form['lat']
-        lng = request.form['lng']
-        messageID = request.form['messageid']
+        return "Only GET requests."
 
-    #for x in range (0, 25):
-        #yyapi = YikYakAPI(None, lat, lng)
-        #yyapi.registerUser()
-        #print 'POST - messageID: {}, lat: {}, lng: {}'.format(messageID, lat, lng)
-        #params = (('messageID', messageID),)
-        #yakID = yyapi.get('yakID', params)
-        #print yakID
-        #print yyapi.likeMessage(messageID)
-    
-    yyapi = YikYakAPI(None, lat, lng)
-    yyapi.registerUser()
-    userID = yyapi.userID
-    print userID
+    response = yyapi.likeMessage(messageID)
 
-    coords = yy.Location(lat, lng)
+    return str(response)
 
-    yakker = yy.Yakker(userID, coords, False)
+@app.route("/downvote", methods=['GET'])
+def downvote():
+    if request.method == 'GET':
+        lat = str(round(float(request.args.get('lat')), 6))
+        lng = str(round(float(request.args.get('lng')), 6))
+        messageID = request.args.get('messageid')
+    else:
+        return "Only GET requests."
 
-    upvoted = yakker.upvote_yak(messageID)
+    response = yyapi.downvoteMessage(messageID)
 
-    return str(upvoted.status_code) if upvoted else "Didn't work"
+    return str(response)
+
+@app.route("/postyak", methods=['POST'])
+def postyak():
+	message = request.form['message']
+	handle = request.form['handle']
+	lat = request.form['lat']
+	lng = request.form['lng']
+
+	if (handle == ""):
+		handle = None
+
+	yyapi.sendMessage(message, handle, False, lat, lng)
+
+	return "Posted."
 
 if __name__ == "__main__":
     app.debug = True

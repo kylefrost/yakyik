@@ -63,47 +63,23 @@ function clickedUp(obj) {
         if (downVote.innerHTML == '<img src="/static/img/downVote.png">') {
             upVote.innerHTML = '<img src="/static/img/upVote_pressed.png">';
             votes.innerHTML = parseInt(votes.innerHTML) + 1;
-            /*
-            $.getJSON('/upvote', {
-                lat: kLat,
-                lng: kLng,
-                messageid: messageID
-            }, function(data) {
-                console.log(data)
-            });
-            */
-            
-            $.ajax({
-                type: "POST",
-                url: "/upvote",
-                data: { 'messageid': messageID, 'lat': kLat, 'lng': kLng }
-            }).done(function(data) {
-                console.log(data);
-            });
-            
         } else {
             upVote.innerHTML = '<img src="/static/img/upVote_pressed.png">';
             votes.innerHTML = parseInt(votes.innerHTML) + 2;
             downVote.innerHTML = '<img src="/static/img/downVote.png">';
-            $.ajax({
-                method: "GET",
-                url: "/upvote",
-                data: { messageID: messageID, lat: kLat, lng: kLng }
-            }).done(function(data) {
-                console.log(data);
-            });
-            $.ajax({
-                method: "POST",
-                url: "/upvote",
-                data: { messageID: messageID, lat: kLat, lng: kLng }
-            }).done(function(data) {
-                console.log(data);
-            });
         }
     } else {
         upVote.innerHTML = '<img src="/static/img/upVote.png">';
         votes.innerHTML = parseInt(votes.innerHTML) - 1;
     }
+
+    $.ajax({
+        type: "GET",
+        url: "/upvote",
+        data: { 'messageid': messageID, 'lat': kLat, 'lng': kLng }
+    }).done(function(data) {
+        console.log(data);
+    });
 }
 
 function clickedDown(obj) {
@@ -127,4 +103,55 @@ function clickedDown(obj) {
         downVote.innerHTML = '<img src="/static/img/downVote.png">';
         votes.innerHTML = parseInt(votes.innerHTML) + 1;
     }
+
+    $.ajax({
+        type: "GET",
+        url: "/downvote",
+        data: { 'messageid': messageID, 'lat': kLat, 'lng': kLng }
+    }).done(function(data) {
+        console.log(data);
+    });
+}
+
+function postYak() {
+    bootbox.dialog({
+            title: "New Yak",
+            message: '<div class="row">  ' +
+                '<div class="col-md-12"> ' +
+                '<form class="form-horizontal"> ' +
+                '<div class="form-group"> ' +
+                '<label class="col-md-4 control-label" for="handle">Handle:</label> ' +
+                '<div class="col-md-4"> ' +
+                '<input id="handle" name="handle" type="text" placeholder="Handle" class="form-control input-md"> ' +
+                '<span class="help-block">This can be blank.</span> </div> ' +
+                '</div> ' +
+                '<div class="form-group"> ' +
+                '<label class="col-md-4 control-label" for="yak">Yak:</label> ' +
+                '<div class="col-md-4"> ' +
+                '<input id="yak" name="yak" type="text" placeholder="Yak" class="form-control input-md"> ' +
+                '<span></span> </div> ' +
+                '</div> ' +
+                '</div> </div>' +
+                '</form> </div>  </div>',
+            buttons: {
+                success: {
+                    label: "Post",
+                    className: "btn-success",
+                    callback: function () {
+                        var handle = $('#handle').val();
+                        var yak = $('#yak').val();
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/postyak",
+                            data: { 'message': yak, 'handle': handle, 'lat': kLat, 'lng': kLng }
+                        }).done(function(data) {
+                            console.log(data);
+                            location.reload();
+                        });
+                    }
+                }
+            }
+        }
+    );
 }
