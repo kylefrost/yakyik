@@ -14,11 +14,8 @@ def get_yaks():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
     
-    #loc = API.Location(lat, lng)
-    #yakker = API.Yakker(None, loc, True)
-
     global yyapi
-    yyapi = YikYakAPI(config.APIYYUID, lat, lng)
+    yyapi = YikYakAPI(config.YYUIDN, lat, lng)
     yaks = yyapi.getMessages(lat, lng)
     return jsonify(yaks)
 
@@ -47,6 +44,10 @@ def downvote():
     response = yyapi.downvoteMessage(messageID)
 
     return str(response)
+
+@app.route("/loc")
+def loc():
+    return render_template('loc.html')
 
 @app.route("/postyak", methods=['POST'])
 def postyak():

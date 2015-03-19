@@ -44,7 +44,7 @@ function showPosition(position) {
                 builtTime = "15s";
             }
 
-            var timeSince = "<div class=\"yakTimeSince\"><img />" + builtTime + "</div>";
+            var timeSince = "<div class=\"yakTimeSince\"><img src=\"/static/img/clock.png\"/>" + builtTime + "</div>";
 
             $("#yaks").append("<div class=\"yak\">" + buildVotes + buildHandle + "<div class=\"yakText\">" + val.message + "</div>" + timeSince + buildComments + "</div>");
         });
@@ -170,6 +170,9 @@ function postYak() {
                         }).done(function(data) {
                             console.log(data);
                             location.reload();
+                        }).fail(function(XHR, rStatus) {
+                            console.log(rStatus);
+                            console.log(XHR);
                         });
                     }
                 }
