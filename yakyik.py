@@ -1,4 +1,4 @@
-import os
+import os, config
 from flask import Flask, render_template, request, jsonify
 from yikyak import YikYakAPI
 
@@ -14,7 +14,7 @@ def get_yaks():
     lng = request.args.get('lng')
 
     global yyapi
-    yyapi = YikYakAPI(os.getenv('YYUID'), lat, lng) # iPad userID cause .registerUser() does not work
+    yyapi = YikYakAPI(config.YYUID, lat, lng) # iPad userID cause .registerUser() does not work
     yaks = yyapi.getMessages(lat, lng)
     return jsonify(yaks)
 
