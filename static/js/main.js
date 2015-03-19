@@ -24,17 +24,29 @@ function showPosition(position) {
             } else {
                 var buildHandle = "<div class=\"yakHandle\"></div>";
             }
-            var buildComments = "<div class=\"yakComments\">" + val.comments + " COMMENTS</div>";
+            
+            if (val.comments == 0) {
+                var buildComments = "<div class=\"yakComments\"></div>";
+            } else if (val.comments == 1) {
+                var buildComments = "<div class=\"yakComments\">" + val.comments + " reply</div>";
+            } else {
+                var buildComments = "<div class=\"yakComments\">" + val.comments + " replies</div>";
+            }
+
             var buildTime = moment(val.time).fromNow(true);
-            console.log(buildTime);
             if (buildTime.split(" ").pop() == "days" || buildTime.split(" ").pop() == "day") {
                 var days = buildTime.split(" ")[0] == "a" ? "1" : buildTime.split(" ")[0];
                 builtTime = days + "d";
             } else if (buildTime.split(" ").pop() == "hours" || buildTime.split(" ").pop() == "hour") {
-                console.log(buildTime.split(" "));
+                var hours = buildTime.split(" ")[0] == "an" ? "1" : buildTime.split(" ")[0];
+                builtTime = hours + "h";
+            } else {
+                builtTime = "15s";
             }
 
-            $("#yaks").append("<div class=\"yak\">" + buildVotes + buildHandle + "<div class=\"yakText\">" + val.message + "</div>" + buildTime + "</div>");
+            var timeSince = "<div class=\"yakTimeSince\"><img />" + builtTime + "</div>";
+
+            $("#yaks").append("<div class=\"yak\">" + buildVotes + buildHandle + "<div class=\"yakText\">" + val.message + "</div>" + timeSince + buildComments + "</div>");
         });
     });
 
