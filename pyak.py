@@ -142,7 +142,8 @@ class Yak:
         print ("\n\t%s likes  |  Posted  %s  at  %s %s" % (self.likes, self.time, self.latitude, self.longitude))
 
 class Yakker:
-    base_url = "https://yikyakapp.com/api/"
+    base_url = "https://us-east-api.yikyakapp.com/api/"
+    #user_agent = "Yik Yak/2.3.4 (iPhone; iOS 8.3; Scale/3.00)"
     user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Google Nexus 4 - 4.4.4 - API 19 - 768x1280 Build/KTU84P)"
     HTTP_debugging = False;
 
@@ -176,7 +177,7 @@ class Yakker:
         return result
 
     def sign_request(self, page, params):
-        key = "35FD04E8-B7B1-45C4-9886-94A75F4A2BB4"
+        key = "F7CAFA2F-FE67-4E03-A090-AC7FFF010729"
 
         #The salt is just the current time in seconds since epoch
         salt = str(int(time.time()))
@@ -203,7 +204,7 @@ class Yakker:
         return hash, salt
         
     def post_sign_request(self, page, params):
-        key = "35FD04E8-B7B1-45C4-9886-94A75F4A2BB4"
+        key = "F7CAFA2F-FE67-4E03-A090-AC7FFF010729"
     
         #The salt is just the current time in seconds since epoch
         salt = str(int(time.time()))
@@ -232,7 +233,8 @@ class Yakker:
             "User-Agent": self.user_agent,
             "Accept-Encoding": "gzip",
         }
-
+        
+        print "\nurl: {}\nparams: {}\nheaders: {}".format(url, params, headers)
         response = requests.get(url, params=params, headers=headers)
         if (self.HTTP_debugging):
             print vars(response)
