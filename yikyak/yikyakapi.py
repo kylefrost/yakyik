@@ -9,7 +9,7 @@ import hmac
 
 
 class YikYakAPI:
-    baseURL = 'https://us-central-api.yikyakapi.net/api/'
+    baseURL = 'https://us-east-api.yikyakapi.net/api/'
     key = 'F7CAFA2F-FE67-4E03-A090-AC7FFF010729'
 
     def __init__(self, userID=None, latitude=0, longitude=0):
@@ -49,8 +49,8 @@ class YikYakAPI:
         req.params += (('course', '-1.000000'),)
         parts = urlsplit(req.prepare().url)
         path = urlunsplit(map(lambda x: x if parts.index(x) > 1 else '', parts))
-        #if messageID:
-        #    path += '&messageID=' + messageID[1]
+        if messageID:
+            path += '&messageID=' + messageID[1]
         salt = str(int(time.time()))
         hashed = hmac.new(self.key, path + salt, sha1)
         hash = hashed.digest().encode('base64').rstrip('\n')
@@ -58,8 +58,8 @@ class YikYakAPI:
         req.params += (('hash', hash),)
         print "\nRequest Parameters: {}\n".format(req.params)
         prepped = self.session.prepare_request(req)
-        #if messageID:
-        #    prepped.url = prepped.url.replace('&salt', '&messageID=' + messageID[1] + '&salt')
+        if messageID:
+            prepped.url = prepped.url.replace('&salt', '&messageID=' + messageID[1] + '&salt')
         print "\nPrepped URL: {}\n".format(prepped.url)
         response = self.session.send(prepped)
         print response.url

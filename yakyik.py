@@ -60,7 +60,7 @@ def postyak():
 	if (handle == ""):
 		handle = None
 
-	yyapi.sendMessage(message, handle, False, lat, lng)
+	yyapi.sendMessage(message, handle)
 
 	return "Posted."
 

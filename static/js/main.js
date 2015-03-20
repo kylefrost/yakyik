@@ -1,10 +1,19 @@
-$(function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else { 
-        alert("Geolocation is not supported by this browser.");
+function myIP() {
+    if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
+    else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+
+    xmlhttp.open("GET","http://api.hostip.info/get_html.php",false);
+    xmlhttp.send();
+
+    hostipInfo = xmlhttp.responseText.split("\n");
+
+    for (i=0; hostipInfo.length >= i; i++) {
+        ipAddress = hostipInfo[i].split(":");
+        if ( ipAddress[0] == "IP" ) return ipAddress[1];
     }
-});
+
+    return false;
+}
 
 var kLat;
 var kLng;
@@ -72,6 +81,17 @@ function showError(error) {
             break;
     }
 }
+
+$(function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else { 
+        alert("Geolocation is not supported by this browser.");
+    }
+
+    alert(myIP());
+});
+
 
 function clickedUp(obj) {
     var objs = obj.parentNode.children;
